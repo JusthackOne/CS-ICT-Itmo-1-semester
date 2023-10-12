@@ -1,4 +1,8 @@
 import datetime
+import pytz
+from tzwhere import tzwhere
+
+
 class FormWeather:
     async def get_weather_photo(self, temp):
         if temp >= 20:
@@ -15,14 +19,19 @@ class FormWeather:
         photo_link = await self.get_weather_photo(int(data['main']['temp']))
         photo = open(photo_link, 'rb')
         description = data['weather'][0]['description']
-        time = datetime.datetime.now().strftime("%d-%m %H:%M")
+
+        tz = tzwhere.tzwhere()
+        timezon = tz.tzNameAt(float(data['coord']['lat']), float(data['coord']['lon']))
+        timezone = pytz.timezone(timezon)
+        time = datetime.datetime.now(timezone).strftime("%d-%m %H:%M")
+
         temp = str( int( data["main"]["temp"] ) )
         pressure = str(int(float(data["main"]["pressure"]) / 1.33317))
         humidity = data["main"]["humidity"]
         visibility = data["visibility"]
         speed = data["wind"]["speed"]
 
-        text = (f'🟢 Погода на <u>{time}</u> - <b>{description}</b>\n\n'
+        text = (f'🟢 Погода на <u>{time}</u> по местному времени - <b>{description}</b>\n\n'
                 f'Температура: <i>{temp}°C</i>\n'
                 f'Давление: <i>{pressure} мм рт. ст</i>\n'
                 f'Влажность: <i>{humidity}%</i>\n'
@@ -38,3 +47,5 @@ class FormWeather:
             text += f'Дождь: <i>{snow} мм</i>\n'
 
         return text, photo
+
+formweather = FormWeather()
