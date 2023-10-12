@@ -18,6 +18,7 @@ def check(t):
         return False
     return True
 
-t = input()
-if check(t) is True:
-    print(eval(t))
+def calculator(t):
+    if check(t) is True:
+        return eval(t)
+    return 'Некоректные данные'
