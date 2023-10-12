@@ -1,6 +1,3 @@
-t = input()
-
-
 def check(t):
     t = t.replace(" ", "")
     for k in ["**", "-", "+", "/", "*"]:
@@ -21,6 +18,7 @@ def check(t):
         return False
     return True
 
-
-if check(t) is True:
-    print(eval(t))
+def calculator(t):
+    if check(t) is True:
+        return eval(t)
+    return 'Некоректные данные'
