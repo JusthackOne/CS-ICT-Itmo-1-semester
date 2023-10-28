@@ -1,23 +1,24 @@
-def check(t):
+# Проверки калькулятора
+def check_calculator(text):
     t = t.replace(" ", "")
-    for k in ["**", "-", "+", "/", "*"]:
-        z = t.split(k)
-        if len(z) == 2:
+    for operation in ["**", "-", "+", "/", "*"]:    # Делаем список цифр
+        dict_text = text.split(operation)
+        if len(dict_text) == 2: # Проверям, есть ли у нас 2 числа
             break
-    if len(z) < 2:
+    if len(dict_text) < 2:  # Проверям, есть ли у нас 2 числа
         print("Напишите строку в формате 2+2")
         return False
 
-    for k in z:
-        if k.isalpha() is True:
+    for character in dict_text: # Проверям, есть ли буквы в переданной строке
+        if character.isalpha() is True:
             print("Буквы не надо писать!")
             return False
 
-    if z[-1] == "0" and "/" in t:
+    if dict_text[-1] == "0" and "/" in text: # Проверяем, является ли переданная строка делением на ноль
         print("На ноль делить нельзя!")
         return False
     return True
 
-t = input()
-if check(t) is True:
-    print(eval(t))
+text = input()
+if check_calculator(text) is True:
+    print(eval(text))
