@@ -21,18 +21,34 @@ def gcd(a: int, b: int) -> int:
     1
     """
 
-    maximum_iter = 0
-    if a > b:
-        maximum_iter = b
-    else:
-        maximum_iter = a
+    while a != 0 and b != 0:
+        if a >= b:
+            a %= b
+        else:
+            b %= a
+    return a or b
 
-    maximalteiler = 0
-    for teiler in range(1, maximum_iter+1):
-        if a % teiler == 0 and b % teiler == 0:
-            maximalteiler = teiler
+def multiplicative_inverse(e: int, phi: int) -> int:
+    """
+    >>> multiplicative_inverse(7, 40)
+    -17
+    """
+    a, b = e, phi
+    x, y = [0], [1]
+    AdelB = list()
 
-    return maximalteiler
+    while a % b != 0:
+        AdelB.append(a // b)
+        a, b = b, a % b
+
+    if len(AdelB) == 0:
+        return 0
+
+    for i in range(1, len(AdelB)+1):
+        x.append(y[i - 1])
+        y.append(x[i - 1] - y[i - 1] * AdelB[len(AdelB) - i])
+    return x[-1]
+
 
 
 def generate_keypair(p: int, q: int) -> Tuple[Tuple[int, int], Tuple[int, int]]:
@@ -59,3 +75,5 @@ def generate_keypair(p: int, q: int) -> Tuple[Tuple[int, int], Tuple[int, int]]:
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
+
+print(generate_keypair(7,5 ))
