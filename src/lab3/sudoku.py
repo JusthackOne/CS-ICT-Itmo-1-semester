@@ -41,7 +41,10 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    pass
+    grid = []
+    for part in range(n):
+        grid.append(values[n*part:(n*(part+1))])
+    return grid
 
 
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
@@ -151,12 +154,13 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     pass
 
 
-if __name__ == "__main__":
-    for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-        grid = read_sudoku(fname)
-        display(grid)
-        solution = solve(grid)
-        if not solution:
-            print(f"Puzzle {fname} can't be solved")
-        else:
-            display(solution)
+# if __name__ == "__main__":
+#     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
+#         grid = read_sudoku(fname)
+#         display(grid)
+#         solution = solve(grid)
+#         if not solution:
+#             print(f"Puzzle {fname} can't be solved")
+#         else:
+#             display(solution)
+
