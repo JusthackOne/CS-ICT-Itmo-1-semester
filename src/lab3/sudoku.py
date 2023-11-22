@@ -84,8 +84,34 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     ['.', '.', '3', '.', '.', '1', '.', '.', '6']
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
+    !
+     Сгруппировать значения values в список, состоящий из списков по n элементов
+    >>> group([1,2,3,4], 2)
+    [[1, 2], [3, 4]]
+    >>> group([1,2,3,4,5,6,7,8,9], 3)
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
-    pass
+    
+    start_row = 0
+    start_col = 0
+    row = pos[0]
+    col = pos[1]
+
+    while row >= start_row:
+        start_row+=3
+    while col >= start_col:
+        start_col+=3
+
+    start_row-=3
+    start_col-=3
+
+    block = []
+
+    for number_row in range(start_row, start_row+2+1):
+        for number_col in range(start_col, start_col+2+1):
+            block.append(grid[number_row][number_col])
+
+    return block
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
