@@ -245,19 +245,19 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
 
     return grid
 
-import threading
-import time
-def run_solve(filename: str) -> None:
-    grid = read_sudoku(filename)
-    start = time.time()
-    solve(grid)
-    end = time.time()
-    print(f"{filename}: {end-start}")
+# import threading
+# import time
+# def run_solve(filename: str) -> None:
+#     grid = read_sudoku(filename)
+#     start = time.time()
+#     solve(grid)
+#     end = time.time()
+#     print(f"{filename}: {end-start}")
 
-import multiprocessing
+# import multiprocessing
 
-if __name__ == "__main__":
-    for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
-        p = multiprocessing.Process(target=run_solve, args=(filename,))
-        p.start()
+# if __name__ == "__main__":
+#     for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
+#         p = multiprocessing.Process(target=run_solve, args=(filename,))
+#         p.start()
 
