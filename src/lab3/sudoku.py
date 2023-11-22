@@ -166,14 +166,45 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pass
+    empty_position = find_empty_positions(grid)
+    
+    
+    if empty_position is None:
+        return grid
+    else:
+        possible_values = find_possible_values(grid, empty_position)
+
+        if len(possible_values) != 0:
+        
+            row_empty = empty_position[0]
+            col_empty = empty_position[1]
+            old_value = grid[row_empty][col_empty]
+            for possible_value in possible_values: 
+                grid[row_empty][col_empty] = possible_value
+
+                if solve(grid):
+                    return grid
+            
+                grid[row_empty][col_empty] = old_value
+
+            return None
+        
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
-    pass
+    for row in range(len(solution)):
+        for col in range(len(solution)):
+            col_check = get_col(solution, (0, col))
+            row_check = get_row(solution, (row, 0))
+            block_check = get_block(solution, (row, col))
 
+            for k in range(len(solution)):
+                if not(col_check.count(col_check[k]) == 1 and row_check.count(row_check[k]) == 1 and block_check.count(block_check[k]) == 1):
+                    return False
+                
+    return True
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
