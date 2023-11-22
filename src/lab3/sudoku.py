@@ -188,8 +188,6 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
                 grid[row_empty][col_empty] = old_value
 
             return None
-        
-
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
@@ -205,6 +203,8 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
                     return False
                 
     return True
+
+import random
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     """Генерация судоку заполненного на N элементов
@@ -227,16 +227,37 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     >>> check_solution(solution)
     True
     """
-    pass
+    i = 1
+    grid = [['.' for _ in range(9)] for _ in range(9)]
+    while i <= 81:
+        row, col = random.randint(0, 8), random.randint(0, 8)
+        while grid[row][col] != '.':
+            row, col = random.randint(0, 8), random.randint(0, 8)
+        num = str(random.randint(1, 9))
 
+        col_check = get_col(grid, (0, col))
+        row_check = get_row(grid, (row, 0))
+        block_check = get_block(grid, (row, col))
 
-# if __name__ == "__main__":
-#     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-#         grid = read_sudoku(fname)
-#         display(grid)
-#         solution = solve(grid)
-#         if not solution:
-#             print(f"Puzzle {fname} can't be solved")
-#         else:
-#             display(solution)
+        if not(num in col_check or num in row_check or num in block_check):
+            grid[row][col] = num
+            i+=1
+
+    return grid
+
+import threading
+import time
+def run_solve(filename: str) -> None:
+    grid = read_sudoku(filename)
+    start = time.time()
+    solve(grid)
+    end = time.time()
+    print(f"{filename}: {end-start}")
+
+import multiprocessing
+
+if __name__ == "__main__":
+    for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
+        p = multiprocessing.Process(target=run_solve, args=(filename,))
+        p.start()
 
