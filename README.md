@@ -1,4 +1,4 @@
-# cs-102-template
+# CS-ICT-Itmo-1-semester
 
 All laboratory works in 1 semester majoring in mobile and network technologies for subject of programming.
 
